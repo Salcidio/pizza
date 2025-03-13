@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
-export 'user.dart';
+import 'package:pizza_repository/src/entities/entities.dart';
 
 class MyUser {
   String userID;
@@ -15,8 +13,22 @@ class MyUser {
 
   static final empty =
       MyUser(userID: '', email: '', name: '', hasActiveCard: false);
-      @override
-      String toString() {
-        return 'MyUser $userID $email $name $hasActiveCard';
 
-} }
+  MyUserEntity toEntity() {
+    return MyUserEntity(
+        userID: userID, email: email, name: name, hasActiveCard: hasActiveCard);
+  }
+
+  static MyUser fromEntity(MyUserEntity entity) {
+    return MyUser(
+        userID: entity.userID,
+        email: entity.email,
+        name: entity.name,
+        hasActiveCard: entity.hasActiveCard);
+  }
+
+  @override
+  String toString() {
+    return 'MyUser $userID $email $name $hasActiveCard';
+  }
+}

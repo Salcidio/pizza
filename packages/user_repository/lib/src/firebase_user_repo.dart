@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pizza_repository/src/entities/user_entity.dart';
@@ -20,10 +19,9 @@ class FirebaseUserRepo extends UserRepository {
       if (fireBaseUser == null) {
         yield null;
       } else {
-        /*
         yield await usersCollection.doc(fireBaseUser.uid).get().then(
             (value) => MyUser.fromEntity(MyUserEntity.fromJson(value.data()!)));
-     */ }
+      }
     });
   }
 
@@ -43,7 +41,6 @@ class FirebaseUserRepo extends UserRepository {
     try {
       UserCredential user = await _firebaseAuth.createUserWithEmailAndPassword(
           email: myuser.email, password: password);
-
       myuser.userID = user.user!.uid;
       return myuser;
     } catch (e) {
@@ -53,14 +50,17 @@ class FirebaseUserRepo extends UserRepository {
   }
 
   @override
-  Future<void> SetUserData(MyUser user) {
-    // TODO: implement SetUserData
-    throw UnimplementedError();
+  Future<void> logOut() {
+    return _firebaseAuth.signOut();
   }
 
   @override
-  Future<void> logOut() {
-    // TODO: implement logOut
-    throw UnimplementedError();
+  Future<void> setUserData(MyUser myUser) async {
+    try {
+      await usersCollection.doc(myUser.userID).set(myUser.toEntity().toJson());
+    } catch (e) {
+      log(e.toString() as num);
+      rethrow;
+    }
   }
 }

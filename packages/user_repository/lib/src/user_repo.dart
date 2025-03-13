@@ -6,7 +6,7 @@ import 'models/models.dart';
 
     Future<MyUser> signUp(MyUser myuser, String password);
 
-    Future<void> SetUserData(MyUser user);
+    Future<void> setUserData(MyUser user);
 
     Future <void> signIn(String email, String password);
 
